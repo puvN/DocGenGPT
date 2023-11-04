@@ -5,7 +5,7 @@ import json
 from typing import List
 
 from github.constants import OUTPUT_CSV_FILE, OUTPUT_FOLDER
-from parse.constants import FIELD_NAMES, EXTRACT_FOLDER, SRC_FILE_EXTENSION
+from parse.constants import *
 
 
 class FilesParser:
@@ -20,7 +20,7 @@ class FilesParser:
         # Search archived repos, unzip it, build a list of maps of
         package_source_map = self._get_sources_tree(repo_file_names)
         # Save result to json
-        json_file_name = EXTRACT_FOLDER + "package_source_map.json"
+        json_file_name = EXTRACT_FOLDER + PACKAGE_SOURCE_MAP_FILE
         with open(json_file_name, "w") as json_file:
             json.dump(package_source_map, json_file, indent=4)
         print(f"DONE! check {json_file_name} for packages and files")

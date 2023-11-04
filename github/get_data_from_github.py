@@ -4,7 +4,7 @@ import time
 import csv
 import requests
 import math
-from github.constants import OUTPUT_CSV_FILE, SUB_QUERIES, URL, QUERY, PARAMETERS, OUTPUT_FOLDER, DELAY_BETWEEN_QUERIES
+from github.constants import *
 
 
 class GithubDownloader:

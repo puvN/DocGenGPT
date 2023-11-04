@@ -2,6 +2,7 @@ import argparse
 
 from github.get_data_from_github import GithubDownloader
 from parse.parse_files import FilesParser
+from generate.generate_doc import DocGptGenerator
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Main script for downloading your repos and generation docs for them")
@@ -19,4 +20,4 @@ if __name__ == '__main__':
     if args.parse:
         FilesParser(repo_names).parse()
     if args.generate:
-        print("argument is not implemented")
+        DocGptGenerator(repo_names).generate_doc()

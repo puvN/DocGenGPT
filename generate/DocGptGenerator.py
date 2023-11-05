@@ -42,7 +42,7 @@ class DocGptGenerator:
 
     def _get_response_from_gpt(self, script):
         # Send a request to the model
-        response = openai.ChatCompletion.create(
+        response = openai.Completion.create(
             engine="davinci",
             prompt=script,
             max_tokens=100,

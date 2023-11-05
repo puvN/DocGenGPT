@@ -11,14 +11,14 @@ from parse.constants import *
 class FilesParser:
 
     def __init__(self, repo_names):
-        self._repo_names = repo_names
+        self.__repo_names = repo_names
 
     def parse(self):
         print("############################################# PARSING ################################################")
         # Read repositories csv file and filter data by downloaded and repo_names
-        repo_file_names = self._get_downloaded_repo_names()
+        repo_file_names = self.__get_downloaded_repo_names()
         # Search archived repos, unzip it, build a list of maps of
-        package_source_map = self._get_sources_tree(repo_file_names)
+        package_source_map = self.__get_sources_tree(repo_file_names)
         if not package_source_map:
             print(f"Error: no sources found, check extension setting and if the sources are available ")
             exit()
@@ -31,7 +31,7 @@ class FilesParser:
         print("######################################################################################################")
 
     @staticmethod
-    def _get_sources_tree(repo_file_names):
+    def __get_sources_tree(repo_file_names):
         source_files = {}
         for repo in repo_file_names:
 
@@ -47,7 +47,7 @@ class FilesParser:
                         source_files[package].append(os.path.join(root, file))
         return source_files
 
-    def _get_downloaded_repo_names(self) -> List[str]:
+    def __get_downloaded_repo_names(self) -> List[str]:
         if not os.path.exists(OUTPUT_CSV_FILE):
             exit()
         with open(OUTPUT_CSV_FILE, 'r') as file:
@@ -58,7 +58,7 @@ class FilesParser:
                 if row['downloaded'] != "downloaded":
                     print(f"Repository {repo_name} not downloaded, skipping")
                     continue
-                if repo_name not in self._repo_names:  # Make sure self.__repo_names is initialized correctly
+                if repo_name not in self.__repo_names:  # Make sure self.__repo_names is initialized correctly
                     print(f"Skipping downloaded repo {repo_name} because it is not selected")
                     continue
                 author = row['author']

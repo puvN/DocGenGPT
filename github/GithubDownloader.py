@@ -10,7 +10,7 @@ from github.constants import *
 class GithubDownloader:
 
     def __init__(self, repo_names):
-        self._repo_names = repo_names
+        self.__repo_names = repo_names
 
     def download(self):
         print("######################################### DOWNLOADING ################################################")
@@ -27,7 +27,7 @@ class GithubDownloader:
             print("Processing subquery " + str(subquery) + " of " + str(len(SUB_QUERIES)) + " ...")
             # Obtain the number of pages for the current subquery (by default each page contains 100 items)
             url = URL + QUERY + str(SUB_QUERIES[subquery - 1]) + PARAMETERS
-            data = json.loads(json.dumps(self._get_url(url)))
+            data = json.loads(json.dumps(self.__get_url(url)))
             number_of_pages = int(math.ceil(data['total_count'] / 100.0))
             print("No. of pages = " + str(number_of_pages))
 
@@ -35,14 +35,14 @@ class GithubDownloader:
             for current_page in range(1, number_of_pages + 1):
                 print("Processing page " + str(current_page) + " of " + str(number_of_pages) + " ...")
                 url = URL + QUERY + str(SUB_QUERIES[subquery - 1]) + PARAMETERS + "&page=" + str(current_page)
-                data = json.loads(json.dumps(self._get_url(url)))
+                data = json.loads(json.dumps(self.__get_url(url)))
                 # Iteration over all the repositories in the current json content page
                 for item in data['items']:
                     # Obtain user and repository names
                     user = item['owner']['login']
                     repository = item['name']
                     # Skipping unnecessary repos
-                    if repository not in self._repo_names:
+                    if repository not in self.__repo_names:
                         print(f"Repository {repository} not in REPOSITORY_NAMES script setting, skipping")
                         continue
                     # Download the zip file of the current project
@@ -70,7 +70,7 @@ class GithubDownloader:
         csv_file.close()
 
     @staticmethod
-    def _get_url(_url):
+    def __get_url(_url):
         """ Given a URL it returns its body """
         response = requests.get(_url)
         return response.json()

@@ -25,22 +25,22 @@ class DocGptGenerator:
         # Ask gpt the initial question
         initial_question = INITIAL_PROMPT + SOURCES_EXTENSION_HINT + 'python'
         print(initial_question)
-        print(f"{self._get_response_from_gpt(initial_question)}")
+        print(f"{self.__get_response_from_gpt(initial_question)}")
         # Ask gpt about files
         for package, files in package_map.items():
             if package.split("-")[0] not in self.__repo_names:
                 print(f"Package: {package} not in repo_names, skipping")
                 continue
             for file in files:
-                self._ask_gpt_about_file(file)
+                self.__ask_gpt_about_file(file)
         # Ask gpt final question
-        print(f"{self._get_response_from_gpt(GENERAL_QUESTION)}")
+        print(f"{self.__get_response_from_gpt(GENERAL_QUESTION)}")
 
-    def _ask_gpt_about_file(self, file):
+    def __ask_gpt_about_file(self, file):
         file_question = FILE_QUESTION + file
-        print(f"{self._get_response_from_gpt(file_question)}")
+        print(f"{self.__get_response_from_gpt(file_question)}")
 
-    def _get_response_from_gpt(self, script):
+    def __get_response_from_gpt(self, script):
         # Send a request to the model
         response = openai.Completion.create(
             engine="davinci",

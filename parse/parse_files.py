@@ -19,11 +19,15 @@ class FilesParser:
         repo_file_names = self._get_downloaded_repo_names()
         # Search archived repos, unzip it, build a list of maps of
         package_source_map = self._get_sources_tree(repo_file_names)
-        # Save result to json
-        json_file_name = EXTRACT_FOLDER + PACKAGE_SOURCE_MAP_FILE
-        with open(json_file_name, "w") as json_file:
-            json.dump(package_source_map, json_file, indent=4)
-        print(f"DONE! check {json_file_name} for packages and files")
+        if not package_source_map:
+            print(f"Error: no sources found, check extension setting and if the sources are available ")
+            exit()
+        else:
+            # Save result to json
+            json_file_name = EXTRACT_FOLDER + PACKAGE_SOURCE_MAP_FILE
+            with open(json_file_name, "w") as json_file:
+                json.dump(package_source_map, json_file, indent=4)
+            print(f"DONE! check {json_file_name} for packages and files")
         print("######################################################################################################")
 
     @staticmethod
@@ -44,6 +48,8 @@ class FilesParser:
         return source_files
 
     def _get_downloaded_repo_names(self) -> List[str]:
+        if not os.path.exists(OUTPUT_CSV_FILE):
+            exit()
         with open(OUTPUT_CSV_FILE, 'r') as file:
             csv_reader = csv.DictReader(file, fieldnames=FIELD_NAMES)
             downloaded_repos = []

@@ -11,7 +11,7 @@ from parse.constants import *
 class FilesParser:
 
     def __init__(self, repo_names):
-        self.__repo_names = repo_names
+        self._repo_names = repo_names
 
     def parse(self):
         print("############################################# PARSING ################################################")
@@ -58,7 +58,7 @@ class FilesParser:
                 if row['downloaded'] != "downloaded":
                     print(f"Repository {repo_name} not downloaded, skipping")
                     continue
-                if repo_name not in self.__repo_names:  # Make sure self.__repo_names is initialized correctly
+                if repo_name not in self._repo_names:  # Make sure self.__repo_names is initialized correctly
                     print(f"Skipping downloaded repo {repo_name} because it is not selected")
                     continue
                 author = row['author']

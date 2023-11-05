@@ -1,8 +1,8 @@
 import argparse
 
-from github.get_data_from_github import GithubDownloader
-from parse.parse_files import FilesParser
-from generate.generate_doc import DocGptGenerator
+from github.GithubDownloader import GithubDownloader
+from parse.FilesParser import FilesParser
+from generate.DocGptGenerator import DocGptGenerator
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Main script for downloading your repos and generation docs for them")

@@ -14,7 +14,7 @@ class FilesParser:
         self.__repo_names = repo_names
 
     def parse(self):
-        print("############################################# PARSING ################################################")
+        print("Parsing files...")
         # Read repositories csv file and filter data by downloaded and repo_names
         repo_file_names = self.__get_downloaded_repo_names()
         # Search archived repos, unzip it, build a list of maps of
@@ -28,7 +28,6 @@ class FilesParser:
             with open(json_file_name, "w") as json_file:
                 json.dump(package_source_map, json_file, indent=4)
             print(f"DONE! check {json_file_name} for packages and files")
-        print("######################################################################################################")
 
     @staticmethod
     def __get_sources_tree(repo_file_names):

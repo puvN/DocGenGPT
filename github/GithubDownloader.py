@@ -13,7 +13,7 @@ class GithubDownloader:
         self.__repo_names = repo_names
 
     def download(self):
-        print("######################################### DOWNLOADING ################################################")
+        print("Downloading files...")
 
         # To save the number of repositories processed
         count_of_repositories = 0
@@ -66,7 +66,6 @@ class GithubDownloader:
                 time.sleep(DELAY_BETWEEN_QUERIES)
 
         print("DONE! " + str(count_of_repositories) + " repositories have been processed.")
-        print("######################################################################################################")
         csv_file.close()
 
     @staticmethod

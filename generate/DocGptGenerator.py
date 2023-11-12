@@ -2,8 +2,9 @@ import json
 import os
 
 from parse.constants import EXTRACT_FOLDER, PACKAGE_SOURCE_MAP_FILE
-from generate.prompts import *
 from openai import OpenAI
+from generate.prompts import CONSTANTS
+from generate.settings import CURRENT_LANGUAGE
 
 
 class DocGptGenerator:
@@ -24,7 +25,7 @@ class DocGptGenerator:
 
         print("Generating docs...")
         # Ask gpt the initial question
-        self.__get_response_from_gpt(INITIAL_PROMPT)
+        self.__get_response_from_gpt(CONSTANTS["INITIAL_PROMPT"][CURRENT_LANGUAGE])
         # Ask gpt about files
         for package, files in package_map.items():
             if package.split("-")[0] not in self.__repo_names:
@@ -32,13 +33,13 @@ class DocGptGenerator:
                 continue
             for file in files:
                 with open(file, 'r') as file_content:
-                    file_question = FILE_QUESTION + file_content.read()
+                    file_question = CONSTANTS["FILE_QUESTION"][CURRENT_LANGUAGE] + file_content.read()
                     self.__get_response_from_gpt(file_question)
         # Ask gpt final question
-        self.__get_response_from_gpt(GENERAL_QUESTION)
+        self.__get_response_from_gpt(CONSTANTS["GENERAL_QUESTION"][CURRENT_LANGUAGE])
 
     def __get_response_from_gpt(self, script):
-        print(f"{script}")
+        print(f"{script}\n")
         completion = self.__client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -48,4 +49,4 @@ class DocGptGenerator:
                 {"role": "user", "content": script}
             ]
         )
-        print(f"{completion.choices[0].message}")
+        print(f"{completion.choices[0].message.content}\n")

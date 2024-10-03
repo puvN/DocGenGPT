@@ -1,3 +1,3 @@
 CURRENT_LANGUAGE = "en"
-MODEL_NAME = "gpt-3.5-turbo"
-DOCS_FOLDER = "C:\\Users\\Professional\\GitHub-Crawler\\Docs\\"
+MODEL_NAME = "gpt-4o-mini"
+DOCS_FOLDER = "C:\\Users\\EvLukin\\GitHub-Crawler\\Docs\\"

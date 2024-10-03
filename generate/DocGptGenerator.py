@@ -1,8 +1,9 @@
 import json
 import os
 
+import requests
+
 from parse.constants import EXTRACT_FOLDER, PACKAGE_SOURCE_MAP_FILE
-from openai import OpenAI
 from generate.prompts import CONSTANTS
 from generate.Models import *
 from generate.constants import *
@@ -11,8 +12,7 @@ from generate.constants import *
 class DocGptGenerator:
     def __init__(self, repository_names):
         self.__repo_names = repository_names
-        self.__openai_key = os.environ.get("OPENAI_API_KEY")
-        self.__client = OpenAI()
+        self.__openai_key = os.environ.get("DOC_GEN_API_KEY")
 
     def generate_doc(self):
         # Read json with package names
@@ -57,15 +57,27 @@ class DocGptGenerator:
 
     def __get_response_from_gpt(self, script):
         print(f"{script}\n")
-        completion = self.__client.chat.completions.create(
-            model=MODEL_NAME,
-            messages=[
+        api_url = "https://api.openai.com/v1/chat/completions"
+        headers = {
+            "Authorization": f"Bearer {self.__openai_key}",
+            "Content-Type": "application/json"
+        }
+
+        data = {
+            "model": MODEL_NAME,
+            "messages": [
                 {"role": "system",
                  "content": "You are a system analyst who should analyze incoming files of a project and understand "
                             "what this project does."},
                 {"role": "user", "content": script}
             ]
-        )
-        response = completion.choices[0].message.content
-        print(f"{response}")
+        }
+        response = requests.post(api_url, json=data, headers=headers)
+
+        if response.status_code == 200:
+            response = response.json()["choices"][0]["message"]["content"]
+            print("Response:\n", response)
+        else:
+            print("Error:", response.text)
         return response
+
